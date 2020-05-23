@@ -1,8 +1,8 @@
-var cors = require("cors");
-const bodyParser = require("body-parser");
+const cors = require("cors");
 const express = require("express");
+const bodyParser = require("body-parser");
 
-// var api = require("./routes/api");
+const api = require("./api");
 
 const app = express();
 
@@ -11,12 +11,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use("/api", api);
+app.use("/users", api);
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder applicataion." });
 });
+
 // Start server
 app.listen(process.env.PORT || 3001, () => {
   console.log(`Server listening`);
