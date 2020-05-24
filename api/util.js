@@ -1,3 +1,5 @@
+const db = require("../models/index");
+
 const validateCsvRow = (row) => {
   if (Object.values(row).length !== 4) {
     throw new Error("Number of columns is not correct");
@@ -16,6 +18,26 @@ const validateCsvRow = (row) => {
   }
 };
 
+const computeSortOrder = (sort) => {
+  console.log(sort.substring(1));
+  let ordering = [];
+  let order = "ASC";
+  if (sort.charAt(0) === "-") {
+    order = "DESC";
+  }
+  if (sort.substring(1) === "salary") {
+    ordering.push(db.Salary);
+    ordering.push("salary");
+  } else if (sort.substring(1) === "id") {
+    ordering.push("companyId");
+  } else {
+    ordering.push(sort.substring(1));
+  }
+  ordering.push(order);
+  return ordering;
+};
+
 module.exports = {
   validateCsvRow,
+  computeSortOrder,
 };
