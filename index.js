@@ -13,9 +13,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/users", api);
 
+const models = require("./models/index");
+
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder applicataion." });
+app.get("/", async (req, res) => {
+  const user = await models.Employee.create({
+    login: "asd",
+    companyId: "xyz",
+    name: "test",
+  });
+  // let teachers = await models.Employee.findAll({
+  //   raw: true,
+  // });
+  // console.log(teachers);
+  // return res.status(200).json({ students: teachers });
 });
 
 // Start server

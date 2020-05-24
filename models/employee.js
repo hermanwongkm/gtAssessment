@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        primaryKey: true,
       },
       name: {
         type: DataTypes.STRING,
@@ -27,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Employee.associate = function (models) {
-    Article.hasOne(models.Salary, {
+    Employee.hasOne(models.Salary, {
       foreignKey: "employeeId",
     });
   };
