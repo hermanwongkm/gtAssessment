@@ -28,10 +28,13 @@ router.post("/", upload.any(), async (req, res) => {
       });
 
     await stream.pipe(csvStream);
-    let x = await upsert(csvData);
-    res.send(x);
+    let result = await upsert(csvData);
+    if (result) {
+      return res.status(200).json({ message: "Sucuessfully updated" });
+    }
   } catch (err) {
     console.log("Error in outer catch");
+    console.log(err.message);
     res.status(400).send({ message: err.message });
   }
 });
@@ -52,19 +55,42 @@ const upsert = async (csvData) => {
           },
           transaction: t,
         });
-        //I will perform update if it exist already
-        if (!created) {
-          await employee.update({
-            login: employeeData.login,
-            name: employeeData.name,
-          });
+
+        if (created) {
+          await db.Salary.create(
+            {
+              salary: employeeData.salary,
+              employeeId: employee.id,
+            },
+            { transaction: t }
+          );
+          //Update both salary & employee infomation
+        } else {
+          await employee.update(
+            {
+              login: employeeData.login,
+              name: employeeData.name,
+            },
+            { transaction: t }
+          );
+          const salary = await db.Salary.findOne(
+            {
+              where: { employeeId: employee.id },
+            },
+            { transaction: t }
+          );
+          await salary.update(
+            {
+              salary: employeeData.salary,
+            },
+            { transaction: t }
+          );
         }
       }
       return true;
     });
     return result;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
