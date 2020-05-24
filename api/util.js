@@ -8,7 +8,7 @@ const validateCsvRow = (row) => {
   if (!Object.values(row)[1].match(/^[a-z0-9]+$/i)) {
     throw new Error("id must be alphanumeric");
   }
-  if (isNaN(Object.values(row)[3])) {
+  if (!parseFloat(Object.values(row)[3]) || isNaN(Object.values(row)[3])) {
     throw new Error("Salary is not a number");
   }
   if (Object.values(row)[3] < 0) {

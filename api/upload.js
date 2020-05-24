@@ -28,6 +28,9 @@ router.post("/", upload.any(), async (req, res) => {
       });
 
     await stream.pipe(csvStream);
+    if (csvData.length === 0) {
+      throw new Error("Empty file");
+    }
     let result = await upsert(csvData);
     if (result) {
       return res.status(200).json({ message: "Sucuessfully updated" });
@@ -44,6 +47,7 @@ const upsert = async (csvData) => {
     const result = await db.sequelize.transaction(async (t) => {
       for (let i = 0; i < csvData.length; i++) {
         let employeeData = csvData[i];
+        console.log(employeeData);
         util.validateCsvRow(employeeData);
 
         const [employee, created] = await db.Employee.findOrCreate({
