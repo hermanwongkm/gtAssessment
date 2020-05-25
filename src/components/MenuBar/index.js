@@ -4,8 +4,7 @@ import Inputs from "./Inputs";
 import DrawerToggleButton from "./DrawerToggleButton.js";
 
 import "./MenuBar.css";
-//what happens if min > max
-//Share the 2 components state?
+
 class UserInput extends React.Component {
   constructor(props) {
     super(props);
@@ -22,12 +21,6 @@ class UserInput extends React.Component {
 
   componentDidMount = async () => {
     console.log(this.props);
-  };
-
-  drawerToggleClickHandler = () => {
-    this.setState((prevState) => {
-      return { drawerOpen: !prevState.drawerOpen };
-    });
   };
 
   onChangeOrder = (e) => {
@@ -57,6 +50,12 @@ class UserInput extends React.Component {
       maxSalary: this.state.maxSalary,
       minSalary: this.state.minSalary,
       sort: "" + this.state.sort + this.state.sortType,
+    });
+  };
+
+  drawerToggleClickHandler = () => {
+    this.setState((prevState) => {
+      return { drawerOpen: !prevState.drawerOpen };
     });
   };
 

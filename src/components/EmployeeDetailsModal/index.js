@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, Modal, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Modal, Input } from "antd";
 
 class EmployeeDetailsModal extends React.Component {
   constructor(props) {

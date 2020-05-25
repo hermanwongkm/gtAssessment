@@ -5,8 +5,6 @@ import { SearchOutlined } from "@ant-design/icons";
 import "./Inputs.css";
 
 class Inputs extends React.Component {
-  componentDidMount = async () => {};
-
   render() {
     return (
       <div className={this.props.vertical ? "vertical" : "horizontal"}>
@@ -49,7 +47,7 @@ class Inputs extends React.Component {
             onClick={this.props.onSubmit}
             icon={<SearchOutlined />}
           >
-            Search{" "}
+            Search
           </Button>
           <Button />
         </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Table, Space, Popconfirm, Input } from "antd";
-
 import { Button } from "antd";
 import {
   CaretRightOutlined,
@@ -8,9 +7,9 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import EmployeeDetailsModal from "../EmployeeDetailsModal";
-import "./HomePageStyle.css";
 
+import EmployeeDetailsModal from "../EmployeeDetailsModal";
+import MenuBar from "../MenuBar";
 import {
   getAllEmployees,
   getEmployeeById,
@@ -18,11 +17,12 @@ import {
   createEmployee,
   deleteEmployeeById,
 } from "../../api/query";
-import MenuBar from "../MenuBar";
+
 import "antd/dist/antd.css";
 
 const { Column } = Table;
 const { Search } = Input;
+const LIMIT = 30;
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -38,75 +38,13 @@ class HomePage extends React.Component {
     };
   }
 
-  onSearch = async (params) => {
+  showCreateModal = () => {
     this.setState({
-      params: params,
-    });
-    params.offset = 0;
-    params.limit = "30"; //Remove magic number
-    const res = await getAllEmployees(params);
-    this.setState({
-      data: res.data.results,
-      dataToShow: res.data.results,
-      offset: 0,
+      openCreateModal: true,
     });
   };
 
-  onEmployeeIdSearch = async (id) => {
-    const res = await getEmployeeById(id);
-    console.log(res);
-    this.setState({
-      data: [res.data],
-      dataToShow: [res.data],
-      offset: 0,
-    });
-  };
-
-  onNext = async () => {
-    window.scrollTo(0, 0);
-    let params = this.state.params;
-    params.offset = this.state.offset + 30;
-    const res = await getAllEmployees(params);
-    this.setState((prevState) => ({
-      offset: prevState.offset + 30,
-      data: prevState.data.concat(res.data.results),
-      dataToShow: res.data.results,
-    }));
-  };
-
-  onBack = () => {
-    window.scrollTo(0, 0);
-    this.setState((prevState) => ({
-      dataToShow: prevState.data.slice(prevState.offset - 30, prevState.offset),
-      offset: prevState.offset - 30,
-    }));
-  };
-
-  edit = (record) => {
-    this.setState({
-      employeeToEdit: record,
-    });
-    this.showModal();
-  };
-
-  delete = async (employee) => {
-    let array = this.state.data;
-    const newArray = array.filter((e) => e.id !== employee.id);
-    this.setState({
-      data: newArray,
-      dataToShow: newArray.slice(this.state.offset, this.state.offset + 30),
-    });
-    await deleteEmployeeById(employee.id);
-  };
-
-  confirm = () => {
-    console.log("confirm");
-  };
-  cancel = () => {
-    console.log("confirm");
-  };
-
-  showModal = () => {
+  showEditModal = () => {
     this.setState({
       openEditModal: true,
     });
@@ -119,6 +57,69 @@ class HomePage extends React.Component {
     });
   };
 
+  onSearch = async (params) => {
+    this.setState({
+      params: params,
+    });
+    params.offset = 0;
+    params.limit = LIMIT; //Remove magic number
+    const res = await getAllEmployees(params);
+    this.setState({
+      data: res.data.results,
+      dataToShow: res.data.results,
+      offset: 0,
+    });
+  };
+
+  onEmployeeIdSearch = async (id) => {
+    const res = await getEmployeeById(id);
+    this.setState({
+      data: [res.data],
+      dataToShow: [res.data],
+      offset: 0,
+    });
+  };
+
+  onNext = async () => {
+    window.scrollTo(0, 0);
+    let params = this.state.params;
+    params.offset = this.state.offset + LIMIT;
+    const res = await getAllEmployees(params);
+    this.setState((prevState) => ({
+      offset: prevState.offset + LIMIT,
+      data: prevState.data.concat(res.data.results),
+      dataToShow: res.data.results,
+    }));
+  };
+
+  onBack = () => {
+    window.scrollTo(0, 0);
+    this.setState((prevState) => ({
+      dataToShow: prevState.data.slice(
+        prevState.offset - LIMIT,
+        prevState.offset
+      ),
+      offset: prevState.offset - LIMIT,
+    }));
+  };
+
+  handleEdit = (record) => {
+    this.setState({
+      employeeToEdit: record,
+    });
+    this.showEditModal();
+  };
+
+  handleDelete = async (employee) => {
+    let array = this.state.data;
+    const newArray = array.filter((e) => e.id !== employee.id);
+    this.setState({
+      data: newArray,
+      dataToShow: newArray.slice(this.state.offset, this.state.offset + LIMIT),
+    });
+    await deleteEmployeeById(employee.id);
+  };
+
   onEdit = async (employee) => {
     const updatedEmployee = await updateEmployee(employee.id, employee);
     let index = this.state.data.findIndex((e) => e.id === employee.id);
@@ -126,19 +127,12 @@ class HomePage extends React.Component {
     array[index] = updatedEmployee.data;
     this.setState({
       data: array,
-      dataToShow: array.slice(this.state.offset, this.state.offset + 30),
+      dataToShow: array.slice(this.state.offset, this.state.offset + LIMIT),
     });
   };
 
   onCreate = async (employee) => {
-    console.log(employee);
     const updatedEmployee = await createEmployee(employee.id, employee);
-  };
-
-  handleAdd = () => {
-    this.setState({
-      openCreateModal: true,
-    });
   };
 
   render() {
@@ -146,7 +140,7 @@ class HomePage extends React.Component {
       <div className="container">
         <MenuBar search={this.onSearch} />
         <Button
-          onClick={this.handleAdd}
+          onClick={this.showCreateModal}
           type="primary"
           style={{ marginTop: 16, marginBottom: 16, marginLeft: 5 }}
         >
@@ -174,11 +168,10 @@ class HomePage extends React.Component {
             render={(text, record) => {
               return (
                 <Space size="middle">
-                  <EditOutlined onClick={() => this.edit(record)} />
+                  <EditOutlined onClick={() => this.handleEdit(record)} />
                   <Popconfirm
                     title="Are you sure delete this task?"
-                    onConfirm={() => this.delete(record)}
-                    onCancel={this.cancel}
+                    onConfirm={() => this.handleDelete(record)}
                     okText="Yes"
                     cancelText="No"
                   >
@@ -194,14 +187,14 @@ class HomePage extends React.Component {
             type="primary"
             shape="circle"
             onClick={this.onBack}
-            disabled={this.state.offset < 30}
+            disabled={this.state.offset < LIMIT}
             icon={<CaretLeftOutlined />}
           />
           <Button
             type="primary"
             shape="circle"
             onClick={this.onNext}
-            disabled={this.state.dataToShow.length < 30 ? true : false}
+            disabled={this.state.dataToShow.length < LIMIT ? true : false}
             icon={<CaretRightOutlined />}
           />
         </div>
