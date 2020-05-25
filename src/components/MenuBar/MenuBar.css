@@ -1,0 +1,74 @@
+.menuBar {
+  width: 100%;
+  background: black;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.menu__horizontal {
+  width: 100%;
+}
+
+.side-drawer {
+  height: 100%;
+  background: white;
+  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70%;
+  max-width: 400px;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+}
+
+.toggleButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.toggleButton__line {
+  width: 30px;
+  height: 2px;
+  background: white;
+}
+
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.side-drawer.open {
+  transform: translateX(0);
+}
+@media (max-width: 768px) {
+  .menu__horizontal {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .menuBar__toggleButton {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .side-drawer {
+    display: none;
+  }
+}
