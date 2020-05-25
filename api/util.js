@@ -37,7 +37,17 @@ const computeSortOrder = (sort) => {
   return ordering;
 };
 
+const employeeDTO = (employee, salary) => {
+  return {
+    id: employee.companyId,
+    name: employee.name,
+    login: employee.login,
+    salary: salary.salary,
+  };
+};
+
 module.exports = {
   validateCsvRow,
   computeSortOrder,
+  employeeDTO,
 };
