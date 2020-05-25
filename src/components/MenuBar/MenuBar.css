@@ -1,12 +1,14 @@
 .menuBar {
   width: 100%;
-  background: black;
+  background: #24292e;
   height: 56px;
   display: flex;
   align-items: center;
 }
 
 .menu__horizontal {
+  font-weight: 600;
+  color: aliceblue;
   width: 100%;
 }
 

@@ -10,21 +10,24 @@ class Inputs extends React.Component {
   render() {
     return (
       <div className={this.props.vertical ? "vertical" : "horizontal"}>
-        <div>
+        <div className="individual">
+          Min Salary:
           <InputNumber
             min={0}
             defaultValue={0}
             onChange={this.props.onChangeMinSalary}
           />
         </div>
-        <div>
+        <div className="individual">
+          Max Salary:
           <InputNumber
             min={0}
             defaultValue={0}
             onChange={this.props.onChangeMaxSalary}
           />
         </div>
-        <div>
+        <div className="individual">
+          Sort Type:
           <Radio.Group onChange={this.props.onChangeSortType} defaultValue="id">
             <Radio.Button value="id">id</Radio.Button>
             <Radio.Button value="login">login</Radio.Button>
@@ -32,19 +35,23 @@ class Inputs extends React.Component {
             <Radio.Button value="salary">salary</Radio.Button>
           </Radio.Group>
         </div>
-        <div>
-          <Radio.Group onChange={this.props.onChangeOrder} defaultValue="-">
+        <div className="individual">
+          Sort Order:
+          <Radio.Group onChange={this.props.onChangeOrder} defaultValue="+">
             <Radio.Button value="+">Asc</Radio.Button>
             <Radio.Button value="-">Des</Radio.Button>
           </Radio.Group>
         </div>
-        <div>
+        <div className="individual">
           <Button
             type="primary"
-            shape="circle"
+            size="large"
             onClick={this.props.onSubmit}
             icon={<SearchOutlined />}
-          />
+          >
+            Search{" "}
+          </Button>
+          <Button />
         </div>
       </div>
     );

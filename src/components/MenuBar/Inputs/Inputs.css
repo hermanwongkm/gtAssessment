@@ -1,8 +1,9 @@
 .horizontal {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   width: 100%;
+  align-items: center;
 }
 
 .vertical {
@@ -10,4 +11,8 @@
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
+}
+
+.individual {
+  margin: 5px;
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { Table, Space } from "antd";
-import { stringify } from "query-string";
+
+import { Button } from "antd";
+import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 import "./HomePageStyle.css";
 
 import { getAllEmployees } from "../../api/query";
@@ -9,61 +11,87 @@ import "antd/dist/antd.css";
 
 const { Column } = Table;
 
-const data = [
-  {
-    key: "1",
-    firstName: "John",
-    lastName: "Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    firstName: "Jim",
-    lastName: "Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    firstName: "Joe",
-    lastName: "Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
-
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      offset: 0,
+      data: [],
+      params: null,
+      dataToShow: [],
+    };
+  }
   onSearch = async (params) => {
-    console.log(stringify(params));
+    this.setState({
+      params: params,
+    });
+    params.offset = 0;
+    params.limit = "30"; //Remove magic number
     const res = await getAllEmployees(params);
-    console.log(res);
+    this.setState({
+      data: res.data.results,
+      dataToShow: res.data.results,
+      offset: 0,
+    });
+  };
+
+  onNext = async () => {
+    window.scrollTo(0, 0);
+    let params = this.state.params;
+    params.offset = this.state.offset + 30;
+    const res = await getAllEmployees(params);
+    console.log(res.data.results);
+    this.setState((prevState) => ({
+      offset: prevState.offset + 30,
+      data: prevState.data.concat(res.data.results),
+      dataToShow: res.data.results,
+    }));
+  };
+
+  onBack = () => {
+    window.scrollTo(0, 0);
+    this.setState((prevState) => ({
+      dataToShow: prevState.data.slice(prevState.offset - 30, prevState.offset),
+      offset: prevState.offset - 30,
+    }));
   };
 
   render() {
     return (
       <div className="container">
         <MenuBar search={this.onSearch} />
-        <Table dataSource={data}>
-          <Column title="Id" dataIndex="firstName" key="firstName" />
-          <Column title="Name" dataIndex="lastName" key="lastName" />
-          <Column title="Login" dataIndex="age" key="age" />
-          <Column title="Salary" dataIndex="address" key="address" />
+        <Table dataSource={this.state.dataToShow} pagination={false}>
+          <Column title="Id" dataIndex="id" key="name" />
+          <Column title="Name" dataIndex="name" key="login" />
+          <Column title="Login" dataIndex="login" key="age" />
+          <Column title="Salary" dataIndex="salary" key="id" />
           <Column
             title="Action"
             key="action"
             render={(text, record) => (
               <Space size="middle">
-                <a>Edit {record.lastName}</a>
+                <a>Edit {record.login}</a>
                 <a>Delete</a>
               </Space>
             )}
           />
         </Table>
-        ,
+        <div>
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={this.onBack}
+            disabled={this.state.offset < 30}
+            icon={<CaretLeftOutlined />}
+          />
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={this.onNext}
+            disabled={this.state.dataToShow.length < 30 ? true : false}
+            icon={<CaretRightOutlined />}
+          />
+        </div>
       </div>
     );
   }

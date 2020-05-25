@@ -5,6 +5,7 @@ import DrawerToggleButton from "./DrawerToggleButton.js";
 
 import "./MenuBar.css";
 //what happens if min > max
+//Share the 2 components state?
 class UserInput extends React.Component {
   constructor(props) {
     super(props);
