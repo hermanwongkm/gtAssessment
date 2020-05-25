@@ -6,7 +6,24 @@ export const getAllEmployees = async (params) => {
   return res;
 };
 
-export const uploadFromLocal = async (data) => {
-  const res = await axios.post("/upload", data, {});
+export const createEmployee = async (id, payload) => {
+  const res = await axios.post(`/users/${id}`, payload);
+  console.log(res);
+  return res;
+};
+
+export const getEmployeeById = async (id) => {
+  const res = await axios.get(`/users/${id}`);
+  console.log(res);
+  return res;
+};
+export const updateEmployee = async (id, payload) => {
+  const res = await axios.patch(`/users/${id}`, payload);
+  console.log(res);
+  return res;
+};
+export const deleteEmployeeById = async (id) => {
+  const res = await axios.delete(`/users/${id}`);
+  console.log(res);
   return res;
 };
