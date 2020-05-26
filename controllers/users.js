@@ -180,7 +180,6 @@ const uploadByCsv = async (req, res) => {
     let csvData = [];
     let csvStream = csv()
       .on("data", async (row, t) => {
-        console.log(Object.values(row)[0].charAt(0) === "#");
         //Check for comment, which is not part of validation
         if (Object.values(row)[0].charAt(0) !== "#") {
           csvData.push(row);
@@ -213,7 +212,6 @@ const upsert = async (csvData) => {
     const result = await db.sequelize.transaction(async (t) => {
       for (let i = 0; i < csvData.length; i++) {
         let employeeData = csvData[i];
-        console.log(employeeData);
         util.validateCsvRow(employeeData);
 
         const [employee, created] = await db.Employee.findOrCreate({

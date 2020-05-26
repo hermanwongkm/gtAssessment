@@ -31,7 +31,7 @@ const validateId = () => {
 const validateEmployee = () => {
   return [
     check("id").isAlphanumeric().withMessage("Must be alphanumeric"),
-    check("name").exists().withMessage("Must be alphanumeric"),
+    check("name").exists().withMessage("Must input name"),
     check("login").isAlphanumeric().withMessage("Must be alphanumeric"),
     check("salary").isNumeric(),
     check("salary")
