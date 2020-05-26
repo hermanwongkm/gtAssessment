@@ -64,7 +64,11 @@ class EmployeeDetailsModal extends React.Component {
     return (
       <div>
         <Modal
-          title={this.props.create ? "Add a new employee" : this.props.data.id}
+          title={
+            this.props.create
+              ? "Add a new employee"
+              : "Edit " + this.props.data.id
+          }
           visible={this.props.open}
           onOk={this.onSubmit}
           onCancel={this.props.cancel}

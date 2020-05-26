@@ -18,6 +18,7 @@ import {
   deleteEmployeeById,
 } from "../../api/query";
 
+import "./HomePage.css";
 import "antd/dist/antd.css";
 
 const { Column } = Table;
@@ -35,6 +36,7 @@ class HomePage extends React.Component {
       openEditModal: false,
       openCreateModal: false,
       employeeToEdit: null,
+      employeeCount: 0,
     };
   }
 
@@ -62,17 +64,19 @@ class HomePage extends React.Component {
       params: params,
     });
     params.offset = 0;
-    params.limit = LIMIT; //Remove magic number
+    params.limit = LIMIT;
     const res = await getAllEmployees(params);
     this.setState({
       data: res.data.results,
       dataToShow: res.data.results,
+      employeeCount: res.data.results.length,
       offset: 0,
     });
   };
 
   onEmployeeIdSearch = async (id) => {
     const res = await getEmployeeById(id);
+    console.log(res);
     this.setState({
       data: [res.data],
       dataToShow: [res.data],
@@ -81,15 +85,32 @@ class HomePage extends React.Component {
   };
 
   onNext = async () => {
-    window.scrollTo(0, 0);
-    let params = this.state.params;
-    params.offset = this.state.offset + LIMIT;
-    const res = await getAllEmployees(params);
-    this.setState((prevState) => ({
-      offset: prevState.offset + LIMIT,
-      data: prevState.data.concat(res.data.results),
-      dataToShow: res.data.results,
-    }));
+    if (this.state.params !== null) {
+      window.scrollTo(0, 0);
+      let params = this.state.params;
+      params.offset = this.state.offset + LIMIT;
+      if (params.offset >= this.state.data.length) {
+        const res = await getAllEmployees(params);
+        this.setState((prevState) => ({
+          offset: prevState.offset + LIMIT,
+          data: prevState.data.concat(res.data.results),
+          dataToShow: res.data.results,
+          employeeCount: res.data.results.length,
+        }));
+      } else {
+        this.setState((prevState) => ({
+          offset: prevState.offset + LIMIT,
+          dataToShow: prevState.data.slice(
+            this.state.offset + LIMIT,
+            this.state.offset + LIMIT * 2
+          ),
+          employeeCount: prevState.data.slice(
+            this.state.offset + LIMIT,
+            this.state.offset + LIMIT * 2
+          ).length,
+        }));
+      }
+    }
   };
 
   onBack = () => {
@@ -100,6 +121,7 @@ class HomePage extends React.Component {
         prevState.offset
       ),
       offset: prevState.offset - LIMIT,
+      employeeCount: LIMIT,
     }));
   };
 
@@ -137,20 +159,22 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="homePage__container">
         <MenuBar search={this.onSearch} />
-        <Button
-          onClick={this.showCreateModal}
-          type="primary"
-          style={{ marginTop: 16, marginBottom: 16, marginLeft: 5 }}
-        >
-          Add a row
-        </Button>
-        <Search
-          placeholder="input employee Id"
-          onSearch={(value) => this.onEmployeeIdSearch(value)}
-          style={{ width: 200, margin: 10 }}
-        />
+        <div>
+          <Button
+            onClick={this.showCreateModal}
+            type="primary"
+            style={{ marginTop: 16, marginBottom: 16, marginLeft: 5 }}
+          >
+            Add a row
+          </Button>
+          <Search
+            placeholder="input employee Id"
+            onSearch={(value) => this.onEmployeeIdSearch(value)}
+            style={{ width: 200, margin: 10 }}
+          />
+        </div>
         <EmployeeDetailsModal
           open={this.state.openCreateModal}
           cancel={this.hideModal}
@@ -182,19 +206,21 @@ class HomePage extends React.Component {
             }}
           />
         </Table>
-        <div>
+        <div className="homePage__scrollButtonContainer">
           <Button
+            className="homePage__scrollButton"
             type="primary"
-            shape="circle"
+            shape="square"
             onClick={this.onBack}
             disabled={this.state.offset < LIMIT}
             icon={<CaretLeftOutlined />}
           />
           <Button
+            className="homePage__scrollButton"
             type="primary"
-            shape="circle"
+            shape="square"
             onClick={this.onNext}
-            disabled={this.state.dataToShow.length < LIMIT ? true : false}
+            disabled={this.state.employeeCount < LIMIT ? true : false}
             icon={<CaretRightOutlined />}
           />
         </div>

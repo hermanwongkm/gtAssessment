@@ -25,13 +25,13 @@ class UserInput extends React.Component {
 
   onChangeOrder = (e) => {
     this.setState({
-      sort: e.target.value,
+      sort: e,
     });
   };
 
   onChangeSortType = (e) => {
     this.setState({
-      sortType: e.target.value,
+      sortType: e,
     });
   };
 
@@ -67,13 +67,16 @@ class UserInput extends React.Component {
     let backdrop;
     if (this.state.drawerOpen) {
       backdrop = (
-        <div className="backdrop" onClick={this.backdropClickHandler} />
+        <div
+          className="sideDrawer__backdrop"
+          onClick={this.backdropClickHandler}
+        />
       );
     }
     return (
       <div>
         <div
-          className={this.state.drawerOpen ? "side-drawer open" : "side-drawer"}
+          className={this.state.drawerOpen ? "sideDrawer open" : "sideDrawer"}
         >
           <Inputs
             vertical={true}
@@ -88,7 +91,7 @@ class UserInput extends React.Component {
           <div className="menuBar__toggleButton">
             <DrawerToggleButton click={this.drawerToggleClickHandler} />
           </div>
-          <div className="menu__horizontal">
+          <div className="menuBar__horizontal">
             <Inputs
               onChangeOrder={this.onChangeOrder}
               onChangeMinSalary={this.onChangeMinSalary}

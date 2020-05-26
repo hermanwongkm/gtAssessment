@@ -1,55 +1,83 @@
 import React from "react";
-import { InputNumber, Radio, Button } from "antd";
+import { InputNumber, Select, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 import "./Inputs.css";
+
+const { Option } = Select;
 
 class Inputs extends React.Component {
   render() {
     return (
       <div className={this.props.vertical ? "vertical" : "horizontal"}>
-        <div className="individual">
-          Min Salary:
+        <div
+          className={
+            this.props.vertical ? "vertical__item" : "hortizontal__item"
+          }
+        >
+          <label>Min Salary:</label>
           <InputNumber
             min={0}
             defaultValue={0}
+            style={{ width: "8rem" }}
             onChange={this.props.onChangeMinSalary}
           />
         </div>
-        <div className="individual">
-          Max Salary:
+        <div
+          className={
+            this.props.vertical ? "vertical__item" : "hortizontal__item"
+          }
+        >
+          <label>Max Salary:</label>
           <InputNumber
             min={0}
             defaultValue={0}
+            style={{ width: "8rem" }}
             onChange={this.props.onChangeMaxSalary}
           />
         </div>
-        <div className="individual">
-          Sort Type:
-          <Radio.Group onChange={this.props.onChangeSortType} defaultValue="id">
-            <Radio.Button value="id">id</Radio.Button>
-            <Radio.Button value="login">login</Radio.Button>
-            <Radio.Button value="name">name</Radio.Button>
-            <Radio.Button value="salary">salary</Radio.Button>
-          </Radio.Group>
+        <div
+          className={
+            this.props.vertical ? "vertical__item" : "hortizontal__item"
+          }
+        >
+          <label>Sort Type:</label>
+          <Select
+            defaultValue="id"
+            style={{ width: "8rem" }}
+            onChange={this.props.onChangeSortType}
+          >
+            <Option value="id">id</Option>
+            <Option value="login">login</Option>
+            <Option value="name">name</Option>
+            <Option value="salary">salary</Option>
+          </Select>
         </div>
-        <div className="individual">
-          Sort Order:
-          <Radio.Group onChange={this.props.onChangeOrder} defaultValue="+">
-            <Radio.Button value="+">Asc</Radio.Button>
-            <Radio.Button value="-">Des</Radio.Button>
-          </Radio.Group>
+        <div
+          className={
+            this.props.vertical ? "vertical__item" : "hortizontal__item"
+          }
+        >
+          <label>Sort Order:</label>
+          <Select
+            defaultValue="+"
+            style={{ width: "8rem" }}
+            onChange={this.props.onChangeOrder}
+          >
+            <Option value="+">Ascending</Option>
+            <Option value="-">Descending</Option>
+          </Select>
         </div>
-        <div className="individual">
+        <div className="buttonContainer">
           <Button
+            className="button"
             type="primary"
-            size="large"
+            size="medium"
             onClick={this.props.onSubmit}
             icon={<SearchOutlined />}
           >
             Search
           </Button>
-          <Button />
         </div>
       </div>
     );

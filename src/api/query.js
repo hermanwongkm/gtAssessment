@@ -16,8 +16,12 @@ export const getEmployeeById = async (id) => {
   return res;
 };
 export const updateEmployee = async (id, payload) => {
-  const res = await axios.patch(`/users/${id}`, payload);
-  return res;
+  try {
+    const res = await axios.patch(`/users/${id}`, payload);
+    return res;
+  } catch (error) {
+    console.log(error.response);
+  }
 };
 export const deleteEmployeeById = async (id) => {
   const res = await axios.delete(`/users/${id}`);

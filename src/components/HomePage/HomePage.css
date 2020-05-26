@@ -1,0 +1,17 @@
+.homePage__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.homePage__scrollButtonContainer {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  margin-top: 0.5%;
+  margin-bottom: 1%;
+  align-items: center;
+}
+
+.homePage__scrollButton {
+  margin: 1%;
+}
