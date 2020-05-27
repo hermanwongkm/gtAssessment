@@ -200,15 +200,17 @@ const uploadByCsv = async (req, res) => {
       await stream.pipe(csvStream);
 
       if (csvData.length === 0) {
-        throw new Error("Empty file");
+        done();
+        return res.status(400).send({ message: "Empty file not allowed" });
       }
-      let result = await upsert(csvData);
+      let result = await upsert(csvData, res);
       done();
       if (result) {
         return res.status(200).json({ message: "Sucuessfully uploaded" });
       }
     });
   } catch (err) {
+    done();
     res.status(400).send({ message: err.message });
   }
 };
@@ -216,7 +218,7 @@ const uploadByCsv = async (req, res) => {
 /**
  * Function that updates if entry exists, else create a new employee
  */
-const upsert = async (csvData) => {
+const upsert = async (csvData, res) => {
   try {
     const result = await db.sequelize.transaction(async (t) => {
       for (let i = 0; i < csvData.length; i++) {
@@ -268,7 +270,7 @@ const upsert = async (csvData) => {
     });
     return result;
   } catch (error) {
-    throw error;
+    res.status(400).send({ message: error.message });
   }
 };
 

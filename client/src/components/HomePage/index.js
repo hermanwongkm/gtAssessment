@@ -41,6 +41,7 @@ class HomePage extends React.Component {
       employeeToEdit: null,
       employeeCount: 0,
       uploading: false,
+      deleteCount: 0,
     };
   }
 
@@ -78,6 +79,7 @@ class HomePage extends React.Component {
         dataToShow: res,
         employeeCount: res.length,
         offset: 0,
+        deleteCount: 0,
       });
     }
   };
@@ -91,6 +93,7 @@ class HomePage extends React.Component {
         data: [res],
         dataToShow: [res],
         offset: 0,
+        deleteCount: 0,
       });
     }
   };
@@ -115,10 +118,11 @@ class HomePage extends React.Component {
             this.state.offset + LIMIT,
             this.state.offset + LIMIT * 2
           ),
-          employeeCount: prevState.data.slice(
-            this.state.offset + LIMIT,
-            this.state.offset + LIMIT * 2
-          ).length,
+          employeeCount:
+            prevState.data.slice(
+              this.state.offset + LIMIT,
+              this.state.offset + LIMIT * 2
+            ).length + this.state.deleteCount,
         }));
       }
     }
@@ -150,13 +154,14 @@ class HomePage extends React.Component {
     } else {
       let array = this.state.data;
       const updatedEmployee = array.filter((e) => e.id !== employee.id);
-      this.setState({
+      this.setState((prevState) => ({
         data: updatedEmployee,
         dataToShow: updatedEmployee.slice(
           this.state.offset,
           this.state.offset + LIMIT
         ),
-      });
+        deleteCount: prevState.deleteCount + 1,
+      }));
     }
   };
 
@@ -207,7 +212,7 @@ class HomePage extends React.Component {
         <div className="homePage__utilBar">
           <Upload customRequest={this.onUpload} showUploadList={false}>
             <Button>
-              <UploadOutlined /> Click to Upload
+              <UploadOutlined /> Upload
             </Button>
           </Upload>
           <Button
@@ -220,7 +225,7 @@ class HomePage extends React.Component {
           <Search
             placeholder="input employee Id"
             onSearch={(value) => this.onEmployeeIdSearch(value)}
-            style={{ width: 200, margin: 10 }}
+            style={{ width: 200, margin: "0.5%" }}
           />
         </div>
         <EmployeeDetailsModal
@@ -242,7 +247,7 @@ class HomePage extends React.Component {
                 <Space size="middle">
                   <EditOutlined onClick={() => this.handleEdit(record)} />
                   <Popconfirm
-                    title="Are you sure delete this task?"
+                    title="Are you sure delete this employee?"
                     onConfirm={() => this.handleDelete(record)}
                     okText="Yes"
                     cancelText="No"
