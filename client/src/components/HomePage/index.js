@@ -1,11 +1,12 @@
 import React from "react";
-import { Table, Space, Popconfirm, Input, message } from "antd";
+import { Table, Space, Popconfirm, Input, message, Upload } from "antd";
 import { Button } from "antd";
 import {
   CaretRightOutlined,
   CaretLeftOutlined,
   EditOutlined,
   DeleteOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 
 import EmployeeDetailsModal from "../EmployeeDetailsModal";
@@ -16,6 +17,7 @@ import {
   updateEmployee,
   createEmployee,
   deleteEmployeeById,
+  uploadCSV,
 } from "../../api/query";
 
 import "./HomePage.css";
@@ -38,6 +40,7 @@ class HomePage extends React.Component {
       openCreateModal: false,
       employeeToEdit: null,
       employeeCount: 0,
+      uploading: false,
     };
   }
 
@@ -186,11 +189,27 @@ class HomePage extends React.Component {
     }
   };
 
+  onUpload = async (event) => {
+    this.setState({
+      uploading: true,
+    });
+    const data = new FormData();
+    data.append("csvFile", event.file);
+    var res = await uploadCSV(data);
+    this.setState({ uploading: false });
+    message.info(res);
+  };
+
   render() {
     return (
       <div className="homePage__container">
         <MenuBar search={this.onSearch} />
-        <div>
+        <div className="homePage__utilBar">
+          <Upload customRequest={this.onUpload} showUploadList={false}>
+            <Button>
+              <UploadOutlined /> Click to Upload
+            </Button>
+          </Upload>
           <Button
             onClick={this.showCreateModal}
             type="primary"

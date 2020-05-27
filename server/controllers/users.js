@@ -181,7 +181,7 @@ const uploadByCsv = async (req, res) => {
     if (lock.isBusy()) {
       return res
         .status(400)
-        .send({ message: "Another file is still being uploaded" });
+        .json({ message: "Another file is still being uploaded" });
     }
     lock.acquire("key", async (done) => {
       let stream = streamifier.createReadStream(req.files[0].buffer);
@@ -205,7 +205,7 @@ const uploadByCsv = async (req, res) => {
       let result = await upsert(csvData);
       done();
       if (result) {
-        return res.status(200).json({ message: "Sucuessfully updated" });
+        return res.status(200).json({ message: "Sucuessfully uploaded" });
       }
     });
   } catch (err) {

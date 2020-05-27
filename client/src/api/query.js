@@ -45,3 +45,14 @@ export const deleteEmployeeById = async (id) => {
     return error.response;
   }
 };
+
+export const uploadCSV = async (data) => {
+  try {
+    const res = await axios.post("/users/upload", data, {});
+    console.log(res.data.message);
+    return res.data.message;
+  } catch (error) {
+    console.log(error.response);
+    return error.response.data.message;
+  }
+};

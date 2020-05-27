@@ -52,5 +52,6 @@ Seeds the database of 50 employees using faker. Code can be found in `./server/s
 ## Assumptions
 
 1. CSV file must be in order of id, login, name salary
-2. Database design: Decided to make a seperate table for salary for future extensibility, as it is afterall a salary management app, although it might not be necessary for the current scope.
-3. In the frontend, after editting an employee, it will not sort again until you re-fetch.
+2. If another CSV file is being uploaded, returns status code 400 with payload: `message: "Another file is still being uploaded"` by using multex.
+3. Database design: Decided to make a seperate table for salary for future extensibility, as it is afterall a salary management app, although it might not be necessary for the current scope.
+4. In the frontend, after editting an employee, it will not sort again until you re-fetch.

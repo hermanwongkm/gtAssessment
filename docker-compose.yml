@@ -47,5 +47,6 @@ services:
       - ./client:/app
     links:
       - server
+
 volumes:
   mysql_db_container_the:
