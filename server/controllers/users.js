@@ -40,7 +40,6 @@ const getEmployeesByParams = async (req, res) => {
       },
     ],
   });
-
   return res.status(200).json({ results: employees });
 };
 
