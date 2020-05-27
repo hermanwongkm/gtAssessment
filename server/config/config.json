@@ -8,7 +8,7 @@
     "operatorsAliases": false
   },
   "test": {
-    "username": "root",
+    "username": "techhunt",
     "password": "techhunt",
     "database": "techhunt",
     "host": "127.0.0.1",

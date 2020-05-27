@@ -1,10 +1,13 @@
 const csv = require("csv-parser");
 const { Op } = require("sequelize");
+var AsyncLock = require("async-lock");
 const streamifier = require("streamifier");
 const { validationResult } = require("express-validator");
 
 const db = require("../models/index");
 const util = require("./util");
+
+const lock = new AsyncLock();
 
 /**
  * Endpoint to get users that matches query params
@@ -175,28 +178,37 @@ const deleteEmployee = async (req, res) => {
  */
 const uploadByCsv = async (req, res) => {
   try {
-    //CSV data is currently stored in memory, thus read it and store it into an array
-    let stream = streamifier.createReadStream(req.files[0].buffer);
-    let csvData = [];
-    let csvStream = csv()
-      .on("data", async (row, t) => {
-        //Check for comment, which is not part of validation
-        if (Object.values(row)[0].charAt(0) !== "#") {
-          csvData.push(row);
-        }
-      })
-      .on("end", async () => {
-        console.log("CSV file successfully processed");
-      });
+    //If another transction is in progress
+    if (lock.isBusy()) {
+      return res
+        .status(400)
+        .send({ message: "Another file is still being uploaded" });
+    }
+    lock.acquire("key", async (done) => {
+      let stream = streamifier.createReadStream(req.files[0].buffer);
+      let csvData = [];
+      let csvStream = csv()
+        .on("data", async (row, t) => {
+          //Check for comment, which is not part of validation
+          if (Object.values(row)[0].charAt(0) !== "#") {
+            csvData.push(row);
+          }
+        })
+        .on("end", async () => {
+          console.log("CSV file successfully processed");
+        });
 
-    await stream.pipe(csvStream);
-    if (csvData.length === 0) {
-      throw new Error("Empty file");
-    }
-    let result = await upsert(csvData);
-    if (result) {
-      return res.status(200).json({ message: "Sucuessfully updated" });
-    }
+      await stream.pipe(csvStream);
+
+      if (csvData.length === 0) {
+        throw new Error("Empty file");
+      }
+      let result = await upsert(csvData);
+      done();
+      if (result) {
+        return res.status(200).json({ message: "Sucuessfully updated" });
+      }
+    });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
@@ -239,13 +251,13 @@ const upsert = async (csvData) => {
             },
             { transaction: t }
           );
-          const salary = await db.Salary.findOne(
+          const salaryEntry = await db.Salary.findOne(
             {
               where: { employeeId: employee.id },
             },
             { transaction: t }
           );
-          await salary.update(
+          await salaryEntry.update(
             {
               salary,
             },
