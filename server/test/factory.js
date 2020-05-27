@@ -3,6 +3,7 @@ const faker = require("faker");
 
 const util = require("../controllers/util");
 
+//Create a single employee
 const employeeFactory = async (data) => {
   const employee = await db.Employee.create({
     companyId: faker.random.alphaNumeric(5),
@@ -16,6 +17,7 @@ const employeeFactory = async (data) => {
   return util.employeeDTO(employee, salary);
 };
 
+//Create multiple employees e.g. Purpose to test sort order
 const employeesFactory = async (data) => {
   let employees = [];
 

@@ -5,7 +5,7 @@ import DrawerToggleButton from "./DrawerToggleButton.js";
 
 import "./MenuBar.css";
 
-class UserInput extends React.Component {
+class MenuBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,9 +19,7 @@ class UserInput extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
-    console.log(this.props);
-  };
+  componentDidMount = async () => {};
 
   onChangeOrder = (e) => {
     this.setState({
@@ -36,12 +34,10 @@ class UserInput extends React.Component {
   };
 
   onChangeMinSalary = (value) => {
-    console.log(value);
     this.setState({ minSalary: value });
   };
 
   onChangeMaxSalary = (value) => {
-    console.log(value);
     this.setState({ maxSalary: value });
   };
 
@@ -107,4 +103,4 @@ class UserInput extends React.Component {
   }
 }
 
-export default UserInput;
+export default MenuBar;

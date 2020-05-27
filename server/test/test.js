@@ -12,6 +12,10 @@ const { expect } = chai;
 
 const NONALPHANUMERIC = "ab$xy";
 
+/**
+ * Test for creating employee
+ */
+
 describe("Creating employee", () => {
   let seeds, validURL, randomId;
 
@@ -129,6 +133,10 @@ describe("Creating employee", () => {
   });
 });
 
+/**
+ * Test for updating employee
+ */
+
 describe("Updating employee", () => {
   let seeds, validURL, randomId;
 
@@ -207,6 +215,10 @@ describe("Updating employee", () => {
   });
 });
 
+/**
+ * Test for getting an employee
+ */
+
 describe("Get an employee", () => {
   let seeds, validURL;
 
@@ -248,6 +260,10 @@ describe("Get an employee", () => {
       });
   });
 });
+
+/**
+ * Test for deleting employee
+ */
 
 describe("Delete employee", () => {
   let seeds, validURL;
@@ -295,7 +311,11 @@ describe("Delete employee", () => {
   });
 });
 
-describe("Get all employee in the correct sorted order", () => {
+/**
+ * Test for getting all employees under selected params
+ */
+
+describe("Get all employee in the correct sorted order and under a certain param", () => {
   let seeds, validURL;
   beforeEach("setup seeds", async () => {
     seeds = await factory.employeesFactory();

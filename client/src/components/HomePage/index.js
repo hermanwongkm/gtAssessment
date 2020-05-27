@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Space, Popconfirm, Input } from "antd";
+import { Table, Space, Popconfirm, Input, message } from "antd";
 import { Button } from "antd";
 import {
   CaretRightOutlined,
@@ -24,6 +24,7 @@ import "antd/dist/antd.css";
 const { Column } = Table;
 const { Search } = Input;
 const LIMIT = 30;
+const BADREQUEST = 400;
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -66,22 +67,29 @@ class HomePage extends React.Component {
     params.offset = 0;
     params.limit = LIMIT;
     const res = await getAllEmployees(params);
-    this.setState({
-      data: res.data.results,
-      dataToShow: res.data.results,
-      employeeCount: res.data.results.length,
-      offset: 0,
-    });
+    if (res.status === BADREQUEST) {
+      message.error("In correct parameters");
+    } else {
+      this.setState({
+        data: res,
+        dataToShow: res,
+        employeeCount: res.length,
+        offset: 0,
+      });
+    }
   };
 
   onEmployeeIdSearch = async (id) => {
     const res = await getEmployeeById(id);
-    console.log(res);
-    this.setState({
-      data: [res.data],
-      dataToShow: [res.data],
-      offset: 0,
-    });
+    if (res.status === BADREQUEST) {
+      message.error(`Employee id:${id} does not exist.`);
+    } else {
+      this.setState({
+        data: [res],
+        dataToShow: [res],
+        offset: 0,
+      });
+    }
   };
 
   onNext = async () => {
@@ -93,9 +101,9 @@ class HomePage extends React.Component {
         const res = await getAllEmployees(params);
         this.setState((prevState) => ({
           offset: prevState.offset + LIMIT,
-          data: prevState.data.concat(res.data.results),
-          dataToShow: res.data.results,
-          employeeCount: res.data.results.length,
+          data: prevState.data.concat(res),
+          dataToShow: res,
+          employeeCount: res.length,
         }));
       } else {
         this.setState((prevState) => ({
@@ -133,28 +141,49 @@ class HomePage extends React.Component {
   };
 
   handleDelete = async (employee) => {
-    let array = this.state.data;
-    const newArray = array.filter((e) => e.id !== employee.id);
-    this.setState({
-      data: newArray,
-      dataToShow: newArray.slice(this.state.offset, this.state.offset + LIMIT),
-    });
-    await deleteEmployeeById(employee.id);
+    const res = await deleteEmployeeById(employee.id);
+    if (res.status === BADREQUEST) {
+      message.error("Unable to delete employee");
+    } else {
+      let array = this.state.data;
+      const updatedEmployee = array.filter((e) => e.id !== employee.id);
+      this.setState({
+        data: updatedEmployee,
+        dataToShow: updatedEmployee.slice(
+          this.state.offset,
+          this.state.offset + LIMIT
+        ),
+      });
+    }
   };
 
   onEdit = async (employee) => {
-    const updatedEmployee = await updateEmployee(employee.id, employee);
-    let index = this.state.data.findIndex((e) => e.id === employee.id);
-    let array = this.state.data;
-    array[index] = updatedEmployee.data;
-    this.setState({
-      data: array,
-      dataToShow: array.slice(this.state.offset, this.state.offset + LIMIT),
-    });
+    const res = await updateEmployee(employee.id, employee);
+    if (res.status === BADREQUEST) {
+      message.error(`Incorrect parameters, employee not updated`);
+    } else {
+      let index = this.state.data.findIndex((e) => e.id === employee.id);
+      let array = this.state.data;
+      array[index] = res;
+      this.setState({
+        data: array,
+        dataToShow: array.slice(this.state.offset, this.state.offset + LIMIT),
+      });
+    }
   };
 
   onCreate = async (employee) => {
-    const updatedEmployee = await createEmployee(employee.id, employee);
+    const res = await createEmployee(employee.id, employee);
+    if (res.status === BADREQUEST) {
+      message.error(`Employee exist or incorrect inputs`);
+    } else {
+      message.success(`Employee added`);
+      this.setState({
+        data: [res],
+        dataToShow: [res],
+        offset: 0,
+      });
+    }
   };
 
   render() {
@@ -167,7 +196,7 @@ class HomePage extends React.Component {
             type="primary"
             style={{ marginTop: 16, marginBottom: 16, marginLeft: 5 }}
           >
-            Add a row
+            Add new employee
           </Button>
           <Search
             placeholder="input employee Id"

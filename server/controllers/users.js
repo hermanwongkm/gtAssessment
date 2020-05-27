@@ -198,8 +198,6 @@ const uploadByCsv = async (req, res) => {
       return res.status(200).json({ message: "Sucuessfully updated" });
     }
   } catch (err) {
-    console.log("Error in outer catch");
-    console.log(err.message);
     res.status(400).send({ message: err.message });
   }
 };
@@ -211,15 +209,15 @@ const upsert = async (csvData) => {
   try {
     const result = await db.sequelize.transaction(async (t) => {
       for (let i = 0; i < csvData.length; i++) {
-        let employeeData = csvData[i];
-        util.validateCsvRow(employeeData);
+        util.validateCsvRow(csvData[i]);
+        let [id, login, name, salary] = Object.values(csvData[i]);
 
         const [employee, created] = await db.Employee.findOrCreate({
-          where: { companyId: employeeData.id },
+          where: { companyId: id },
           defaults: {
-            companyId: employeeData.id,
-            login: employeeData.login,
-            name: employeeData.name,
+            companyId: id,
+            login,
+            name,
           },
           transaction: t,
         });
@@ -227,7 +225,7 @@ const upsert = async (csvData) => {
         if (created) {
           await db.Salary.create(
             {
-              salary: employeeData.salary,
+              salary,
               employeeId: employee.id,
             },
             { transaction: t }
@@ -236,8 +234,8 @@ const upsert = async (csvData) => {
         } else {
           await employee.update(
             {
-              login: employeeData.login,
-              name: employeeData.name,
+              login,
+              name,
             },
             { transaction: t }
           );
@@ -249,7 +247,7 @@ const upsert = async (csvData) => {
           );
           await salary.update(
             {
-              salary: employeeData.salary,
+              salary,
             },
             { transaction: t }
           );

@@ -30,6 +30,12 @@ class EmployeeDetailsModal extends React.Component {
     } else {
       this.props.onEdit(this.state);
     }
+    this.setState({
+      id: null,
+      login: null,
+      name: null,
+      salary: null,
+    });
     this.props.cancel();
   };
 

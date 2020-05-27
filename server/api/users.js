@@ -14,4 +14,5 @@ router.get("/:id", util.validateId(), controllers.getEmployee);
 router.post("/:id", util.validateEmployee(), controllers.createEmployee);
 router.patch("/:id", util.validateEmployee(), controllers.updateEmployee);
 router.delete("/:id", util.validateId(), controllers.deleteEmployee);
+
 module.exports = router;
