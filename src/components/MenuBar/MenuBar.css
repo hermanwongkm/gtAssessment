@@ -1,0 +1,76 @@
+.menuBar {
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  align-items: center;
+  background: #24292e;
+}
+
+.menuBar__horizontal {
+  width: 100%;
+  font-weight: 600;
+  color: aliceblue;
+}
+
+.sideDrawer {
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  max-width: 400px;
+  position: fixed;
+  z-index: 200;
+  background: white;
+  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+}
+
+.toggleButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.toggleButton__line {
+  width: 30px;
+  height: 2px;
+  background: white;
+}
+
+.sideDrawer__backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.sideDrawer.open {
+  transform: translateX(0);
+}
+@media (max-width: 768px) {
+  .menuBar__horizontal {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .menuBar__toggleButton {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .sideDrawer {
+    display: none;
+  }
+}
