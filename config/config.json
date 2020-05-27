@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
+    "username": "techhunt",
     "password": "techhunt",
     "database": "techhunt",
-    "host": "127.0.0.1",
+    "host": "db",
     "dialect": "mysql",
     "operatorsAliases": false
   },
