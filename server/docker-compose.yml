@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql:latest
+    # command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: techhunt
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - mysql_db_container_th:/var/lib/mysql
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    expose:
+      - 3001
+    restart: on-failure
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    tty: true
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    links:
+      - server
+volumes:
+  mysql_db_container_th:
