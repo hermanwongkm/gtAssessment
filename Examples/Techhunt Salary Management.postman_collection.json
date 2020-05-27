@@ -1,0 +1,735 @@
+{
+	"info": {
+		"_postman_id": "9662841b-d579-4dca-865b-4ac641f3ee61",
+		"name": "Techhunt Salary Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Valid requests",
+			"item": [
+				{
+					"name": "Upload CSV file /upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "csvFile",
+									"contentType": "text/csv",
+									"type": "file",
+									"src": "/Users/Herman/Downloads/changeLunaName.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/upload",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"upload"
+							]
+						},
+						"description": "upload CSVfile"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a employee /users/{id}",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"Walt Disney\",\n  \"salary\" :\"9999999\",\n  \"login\" :\"wDisney9\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "Edit employee /users/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n\t\"login\" :\"walterDisney\",\n  \"salary\" :\"100000\",\n  \"name\" :\"Walt Disney V2\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							]
+						},
+						"description": "edit walt disney employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Get employee /users/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							]
+						},
+						"description": "get walt disney should be updated "
+					},
+					"response": []
+				},
+				{
+					"name": "Delete employee /users/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "joe2Id",
+									"disabled": true
+								}
+							]
+						},
+						"description": "delete walt disney"
+					},
+					"response": []
+				},
+				{
+					"name": "Get employee /users/{id} Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							]
+						},
+						"description": "get walt disney should be updated "
+					},
+					"response": []
+				},
+				{
+					"name": "search by params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users?limit=30&maxSalary=5000&minSalary=4.12312&offset=0&sort=%2bname",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "30"
+								},
+								{
+									"key": "maxSalary",
+									"value": "5000"
+								},
+								{
+									"key": "minSalary",
+									"value": "4.12312"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "%2bname"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Other types of valid requests",
+			"item": [
+				{
+					"name": "Upload CSV file /upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "csvFile",
+									"contentType": "text/csv",
+									"type": "file",
+									"src": "/Users/Herman/Downloads/changeLunaName.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/upload",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"upload"
+							]
+						},
+						"description": "upload CSVfile"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a employee /users/{id}",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"迪斯尼\",\n  \"salary\" :\"888.88\",\n  \"login\" :\"wDisney8\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "Edit employee /users/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"salary\" :\"123.456\",\n  \"name\" :\"Walt Disney english\",\n  \"login\" :\"walterDisney\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "edit walt disney employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Get employee /users/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "get walt disney should be updated "
+					},
+					"response": []
+				},
+				{
+					"name": "Delete employee /users/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "joe2Id",
+									"disabled": true
+								}
+							]
+						},
+						"description": "delete walt disney"
+					},
+					"response": []
+				},
+				{
+					"name": "Get employee /users/{id} Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "get walt disney should be updated "
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "27adb756-1c55-4e2c-bc6d-5ff2abf4e94d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b7f599ee-cb95-476d-bdcd-c912ceada73e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Invalid queries that return 400",
+			"item": [
+				{
+					"name": "bad login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"迪斯尼\",\n  \"salary\" :\"9999999\",\n  \"login\" :\"wDisn/ey9\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "bad id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"迪斯尼\",\n  \"salary\" :\"9999999\",\n  \"login\" :\"wDisney9\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d0.02",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d0.02"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "alphabets in salary",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"迪斯尼\",\n  \"salary\" :\"9999a999\",\n  \"login\" :\"wDisney9\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "Negative salary",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" :\"迪斯尼\",\n  \"salary\" :\"-2\",\n  \"login\" :\"wDisney9\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d002",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d002"
+							]
+						},
+						"description": "add a valid employee "
+					},
+					"response": []
+				},
+				{
+					"name": "bad update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"salary\" :\"1000a00\",\n  \"name\" :\"Walt Disney V2\",\n  \"login\" :\"walterD+isney\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d001"
+							]
+						},
+						"description": "edit walt disney employee"
+					},
+					"response": []
+				},
+				{
+					"name": "id that does not exist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d00123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d00123"
+							]
+						},
+						"description": "get walt disney should be updated "
+					},
+					"response": []
+				},
+				{
+					"name": "id that does not exist",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3001/users/d031201",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"d031201"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "joe2Id",
+									"disabled": true
+								}
+							]
+						},
+						"description": "delete walt disney"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "536ebd77-bc5e-4f1b-85f0-64cda8ce1cd6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9409d17-50b4-4254-b30c-27907f57858d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

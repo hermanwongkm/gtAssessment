@@ -6,6 +6,8 @@ MVP employee salary management web application to manage employees' salaries
 
 Frontend code (react, css, js) will be in `client` directory. Backend Node.js/Express code will be in the `server` directory.
 
+In the `examples` folder, one can find a couple of sample CSVs with valid and invalid columns as well as a postman collections to test the endpoints.
+
 ## Getting Started
 
 Make sure you have docker-compose version >= `3.7` and Docker version >= `19.03.8` installed. Then run:
@@ -43,6 +45,8 @@ Perform the migration using the models created and start the server.
 
 Launches the test using mocha. First it performs a migration, seed the database with 50 random employees and lastly runs the test suite. Test files are available in `./server/test`
 
+Note: You can comment out as client and server code in docker-compose file to run the database if needed or use your own local mysql server and change the credentials in test in config file. I did not create another container for test.
+
 ```bash
 `sequelize db:seed:all`
 ```
@@ -56,3 +60,5 @@ Seeds the database of 50 employees using faker. Code can be found in `./server/s
 3. Database design: Decided to make a seperate table for salary for future extensibility, as it is afterall a salary management app, although it might not be necessary for the current scope.
 4. In the frontend, after editting an employee, it will not sort again until you re-fetch.
 5. On the frontend, when i delete an employee, it will not refetch, and thus will show only 29 out of 30 employees. Thus there might be some werid behavior if there is too many deletion. The solution is to refetch with the offset, but i went with the options to not hit the database so many times and also not part of the criteria.
+
+Authored by Herman Wong
