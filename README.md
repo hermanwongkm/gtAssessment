@@ -59,6 +59,6 @@ Seeds the database of 50 employees using faker. Code can be found in `./server/s
 2. If another CSV file is being uploaded, returns status code 400 with payload: `message: "Another file is still being uploaded"` by using multex.
 3. Database design: Decided to make a seperate table for salary for future extensibility, as it is afterall a salary management app, although it might not be necessary for the current scope.
 4. In the frontend, after editting an employee, it will not sort again until you re-fetch.
-5. On the frontend, when i delete an employee, it will not refetch, and thus will show only 29 out of 30 employees. Thus there might be some werid behavior if there is too many deletion. The solution is to refetch with the offset, but i went with the options to not hit the database so many times and also not part of the criteria.
+5. On the frontend, when i delete an employee, it will not refetch, and thus will show only 29 out of 30 employees. Thus there might be some werid behavior if there is too many deletion. The solution I would have used was to use `findAndCountAll` in sequelize during the initial search. This way, i will know how many records is there, when scrolling i.e. pressing the left/right arrow.
 
-Authored by Herman Wong
+   Authored by Herman Wong

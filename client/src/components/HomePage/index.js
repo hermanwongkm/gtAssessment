@@ -94,6 +94,7 @@ class HomePage extends React.Component {
         dataToShow: [res],
         offset: 0,
         deleteCount: 0,
+        employeeCount: 0,
       });
     }
   };

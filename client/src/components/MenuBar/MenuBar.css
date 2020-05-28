@@ -58,6 +58,7 @@
 .sideDrawer.open {
   transform: translateX(0);
 }
+
 @media (max-width: 768px) {
   .menuBar__horizontal {
     display: none;
@@ -69,6 +70,7 @@
     display: none;
   }
 }
+
 @media (min-width: 769px) {
   .sideDrawer {
     display: none;
