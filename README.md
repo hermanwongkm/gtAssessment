@@ -2,6 +2,17 @@
 
 MVP employee salary management web application to manage employees' salaries
 
+## Screen Captures
+
+<p align="center">
+    <img src="Examples/demo.gif" alt="Image" width = "46%" height = "100%" align = "center" />
+</p>
+<p align="center">
+
+</p>
+
+
+
 ## Folder Structure
 
 Frontend code (react, css, js) will be in `client` directory. Backend Node.js/Express code will be in the `server` directory.
