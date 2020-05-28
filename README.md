@@ -31,7 +31,7 @@ Once the setup is complete, the local version of the app can be accessed on your
 In the client directory, you can run:
 
 ```bash
-`npm run start`
+`npm start`
 ```
 
 Runs the app in the development mode.<br>
@@ -40,7 +40,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 In the server directory, you can run:
 
 ```bash
-`npm start`
+`npm run start`
 ```
 
 Perform the migration using the models created and start the server.
