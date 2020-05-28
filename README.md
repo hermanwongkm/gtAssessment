@@ -7,11 +7,6 @@ MVP employee salary management web application to manage employees' salaries
 <p align="center">
     <img src="Examples/demo.gif" alt="Image" width = "46%" height = "100%" align = "center" />
 </p>
-<p align="center">
-
-</p>
-
-
 
 ## Folder Structure
 
