@@ -31,7 +31,7 @@ Once the setup is complete, the local version of the app can be accessed on your
 In the client directory, you can run:
 
 ```bash
-`npm start`
+`npm run start`
 ```
 
 Runs the app in the development mode.<br>
